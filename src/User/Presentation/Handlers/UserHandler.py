@@ -21,8 +21,8 @@ class UserHandler():
         return {"data": request.getFirstName()}
 
     @router.put("/{id}")
-    async def updateUser(request: UserUpdateRepRequest, id: str):
-        request.setId(id)
+    async def updateUser(request: UserRepRequest, id: str):
+        # result = UseCase(request, id)
         return {"data": request}
 
     @router.get("/{id}")
