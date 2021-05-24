@@ -15,6 +15,5 @@ setuptools~=45.2.0
 mongoengine~=0.23.1
 six~=1.14.0
 python-dateutil~=2.7.3
-Pillow~=7.0.0
 blinker~=1.4
 python-dotenv
