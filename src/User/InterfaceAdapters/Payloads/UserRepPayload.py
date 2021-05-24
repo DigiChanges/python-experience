@@ -1,23 +1,19 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from typing import List
+
 
 class UserRepPayload(ABC):
-
-    @abstractmethod
-    def getFirstName(self) -> str:
-        pass
-
-    @abstractmethod
-    def getFirstName(self) -> str:
-        pass
-
-    @abstractmethod
-    def getLastName(self) -> str:
-        pass
-
-    @abstractmethod
-    def getEmail(self) -> str:
-        pass
-
-    @abstractmethod
-    def getPassword(self) -> str:
-        pass
+    firstName: str
+    lastName: str
+    email: str
+    password: str
+    passwordConfirmation: str
+    birthday: str
+    documentType: str
+    documentNumber: int
+    gender: str
+    phone: str
+    country: str
+    address: str
+    enable: bool
+    permissions: List[str]

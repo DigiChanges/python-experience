@@ -1,8 +1,9 @@
 from fastapi import APIRouter
 
-from src.Shared.Responder import Responder
+from src.Shared.Helpers.Responder import Responder
 from src.User.Domain.UseCases.SaveUserUseCase import SaveUserUseCase
 from src.User.Presentation.Requests.UserRepRequest import UserRepRequest
+from src.User.Presentation.Transformers.UserTransformer import UserTransformer
 from src.lazyInject import lazyInject
 
 router = APIRouter(
@@ -14,13 +15,13 @@ responder: Responder = lazyInject.get(Responder)
 
 @router.post("/")
 async def addUser(request: UserRepRequest):
-    if request.passwordValidation():
+    if request.passwordValidation(): # Change to raise error exception on UseCase
         return {"data": 'Error'}
 
     useCase = SaveUserUseCase()
     data = useCase.handle(request)
 
-    return {"data": data}
+    return Responder.send(data, 201, UserTransformer())
 
 @router.put("/{id}")
 async def updateUser(request: UserRepRequest, id: str):
@@ -28,4 +29,4 @@ async def updateUser(request: UserRepRequest, id: str):
 
 @router.get("/{id}")
 async def getUser(id: int):
-    return {"id": id, 'res': responder.send()}
+    return {"id": id}

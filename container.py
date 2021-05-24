@@ -1,6 +1,6 @@
 from injector import Binder, Module, singleton
 
-from src.Shared.Responder import Responder
+from src.Shared.Helpers.Responder import Responder
 from src.User.Infrastructure.UserRepository import UserRepository
 from src.User.InterfaceAdapters.IUserRepository import IUserRepository
 
