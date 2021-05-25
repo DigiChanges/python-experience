@@ -9,7 +9,7 @@ class DatabaseFactory:
     __config: Any
 
     def __init__(self, config, dbDefault: str = "Mongo"):
-        self.__dbDefault = dbDefault
+        self.__dbDefault = dbDefault if dbDefault else "Mongo"
         self.__config = config
 
     def create(self) -> ICreateConnection:
