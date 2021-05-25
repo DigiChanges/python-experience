@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from src.Auth.AuthBearer import JWTBearer
+from fastapi import APIRouter, Depends
 
 from src.Shared.Helpers.Responder import Responder
 from src.User.Domain.UseCases.GetOneUserUseCase import GetOneUserUseCase
@@ -17,7 +18,7 @@ router = APIRouter(
 
 responder: Responder = lazyInject.get(Responder)
 
-@router.post("/")
+@router.post("/", dependencies=[Depends(JWTBearer())])
 async def addUser(request: UserRepRequest):
 
     useCase = SaveUserUseCase()
