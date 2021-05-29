@@ -2,12 +2,10 @@ from abc import ABC, abstractmethod
 from typing import List
 
 
-class UserRepPayload(ABC):
+class UserUpdateRepPayload(ABC):
     firstName: str
     lastName: str
     email: str
-    password: str
-    passwordConfirmation: str
     birthday: str
     documentType: str
     documentNumber: int
@@ -19,10 +17,6 @@ class UserRepPayload(ABC):
     permissions: List[str]
 
     @abstractmethod
-    def passwordValidation(self):
-        pass
-
-    @abstractmethod
     def getFirstName(self):
         pass
 
@@ -32,10 +26,6 @@ class UserRepPayload(ABC):
 
     @abstractmethod
     def getEmail(self):
-        pass
-
-    @abstractmethod
-    def getPassword(self):
         pass
 
     @abstractmethod

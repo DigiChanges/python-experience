@@ -1,25 +1,19 @@
-from src.Shared.Factories.EncryptionFactory import EncryptionFactory
-from src.Shared.InterfaceAdapters.IEncryption import IEncryption
-from src.User.Domain.Entities.User import User
 from src.User.InterfaceAdapters.IUserRepository import IUserRepository
-from src.User.InterfaceAdapters.Payloads.UserRepPayload import UserRepPayload
+from src.User.InterfaceAdapters.Payloads.UserUpdateRepPayload import UserUpdateRepPayload
 from src.lazyInject import lazyInject
 
 
-class SaveUserUseCase:
+class UpdateUserUseCase:
 
     repository: IUserRepository = lazyInject.get(IUserRepository)
-    encryption: IEncryption = EncryptionFactory.create()
 
-    def handle(self, payload: UserRepPayload):
-        if payload.passwordValidation():
-            raise Exception("Error password validation")
+    def handle(self, payload: UserUpdateRepPayload, id):
 
-        user = User()
+        user = self.repository.getOne(id)
+
         user.firstName = payload.getFirstName()
         user.lastName = payload.getLastName()
         user.email = payload.getEmail()
-        user.password = self.encryption.encrypt(payload.getPassword())
         user.birthday = payload.getBirthday()
         user.documentType = payload.getDocumentType()
         user.documentNumber = payload.getDocumentNumber()

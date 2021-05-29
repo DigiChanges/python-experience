@@ -1,9 +1,18 @@
-from abc import ABC, abstractmethod
-from src.User.Domain.Entities.User import User
+from abc import ABC
+from typing import List
 
 
 class IUserDomain(ABC):
-
-    @abstractmethod
-    def save(self, user: User):
-        pass
+    firstName: str
+    lastName: str
+    email: str
+    password: str
+    birthday: str
+    documentType: str
+    documentNumber: int
+    gender: str
+    phone: str
+    country: str
+    address: str
+    enable: bool
+    permissions: List

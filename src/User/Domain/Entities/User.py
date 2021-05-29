@@ -1,21 +1,20 @@
-from dataclasses import dataclass
-from typing import List
-from pydantic import BaseModel
+from mongoengine import Document, StringField, IntField, BooleanField, ListField
 
 
-@dataclass
-class User(BaseModel):
-    firstName: str
-    lastName: str
-    email: str
-    password: str
-    birthday: str
-    documentType: str
-    documentNumber: int
-    gender: str
-    phone: str
-    country: str
-    address: str
-    enable: bool
-    permissions: List[str]
+class User(Document):
+    firstName = StringField()
+    lastName = StringField()
+    email = StringField()
+    password = StringField()
+    birthday = StringField()
+    documentType = StringField()
+    documentNumber = IntField()
+    gender = StringField()
+    phone = StringField()
+    country = StringField()
+    address = StringField()
+    enable = BooleanField()
+    permissions = ListField(StringField(max_length=30))
 
+    def __str__(self):
+        return (f"{self.firstName}, {self.lastName}, {self.email}, {self.password}, {self.birthday}, {self.documentType}, {self.documentNumber}, {self.gender}, {self.phone}, {self.country}, {self.address}, {self.enable}")

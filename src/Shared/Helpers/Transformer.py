@@ -1,7 +1,7 @@
 import abc
 from abc import abstractmethod
-from typing import Any, List
-
+from typing import Any
+from mongoengine import QuerySet
 
 class Transformer(abc.ABC):
 
@@ -12,12 +12,8 @@ class Transformer(abc.ABC):
     def handle(self, data: Any) -> Any:
         result = None
 
-        if isinstance(data, List):
-            pass
-            # result = data.map((element: any) =>
-            # {
-            #     return this.transform(element);
-            # });
+        if isinstance(data, QuerySet):
+            result = list(map(lambda element: self.transform(element), data))
         else:
             result = self.transform(data)
 

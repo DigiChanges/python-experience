@@ -1,14 +1,12 @@
 from typing import List
 from pydantic import BaseModel
-from src.User.InterfaceAdapters.Payloads.UserRepPayload import UserRepPayload
+from src.User.InterfaceAdapters.Payloads.UserUpdateRepPayload import UserUpdateRepPayload
 
 
-class UserRepRequest(UserRepPayload, BaseModel):
+class UserUpdateRepRequest(UserUpdateRepPayload, BaseModel):
     firstName: str
     lastName: str
     email: str
-    password: str
-    passwordConfirmation: str
     birthday: str
     documentType: str
     documentNumber: int
@@ -19,9 +17,6 @@ class UserRepRequest(UserRepPayload, BaseModel):
     enable: bool
     permissions: List[str] = []
 
-    def passwordValidation(self):
-        return self.password != self.passwordConfirmation
-
     def getFirstName(self):
         return self.firstName
 
@@ -30,9 +25,6 @@ class UserRepRequest(UserRepPayload, BaseModel):
 
     def getEmail(self):
         return self.email
-
-    def getPassword(self):
-        return self.password
 
     def getBirthday(self):
         return self.birthday
