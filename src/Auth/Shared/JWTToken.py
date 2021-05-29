@@ -1,8 +1,7 @@
 
-from dataclasses import dataclass
 from typing import Any, Dict
-from jose import JWTError, jwt
-from pydantic.main import BaseModel
+from jose import jwt
+from src.User.Domain.Entities.User import User
 from src.Shared.Config import config
 
 
@@ -12,21 +11,23 @@ class JWTToken():
     user: Any
     payload: Dict[str, str]
 
-    def __init__(self, expires,  user) -> None:
+    def __init__(self, expires,  user: User) -> None:
 
         self.expires = expires
-        self.user = user
+        self.user: User = user
 
         self.payload = {
-            "iss": config["jwt"]["iss"],
-            "aud": config["jwt"]["aud"],
             "sub": self.user.email,
-            "iat": self.expires,
-            "userId": self.user.id,
-            "email": self.user.email
+            "userId": str(self.user.id),
+            "email": self.user.email,
+            "exp": expires
         }
 
-        self.hash = jwt.encode(self.payload, config["jwt"]["secret"], algorithm=config["jwt"]["algorithm"])
+        secret = config.get("jwt", {}).get("secret")
+        algorithm = config.get("jwt", {}).get("algorithm")
+
+        token = jwt.encode(self.payload, secret, algorithm=algorithm)
+        self.hash = token
 
     def getExpires(self) -> int:
         return self.expires

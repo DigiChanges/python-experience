@@ -18,7 +18,8 @@ router = APIRouter(
 
 responder: Responder = lazyInject.get(Responder)
 
-@router.post("/", dependencies=[Depends(JWTBearer())])
+@router.post("/")
+# @router.post("/", dependencies=[Depends(JWTBearer())])
 async def addUser(request: UserRepRequest):
 
     useCase = SaveUserUseCase()
@@ -26,14 +27,14 @@ async def addUser(request: UserRepRequest):
 
     return Responder.send(data, 201, UserTransformer())
 
-@router.put("/{id}")
+@router.put("/{id}", dependencies=[Depends(JWTBearer())])
 async def updateUser(request: UserUpdateRepRequest, id: str):
     useCase = UpdateUserUseCase()
     data = useCase.handle(request, id)
 
     return Responder.send(data, 201, UserTransformer())
 
-@router.get("/{id}")
+@router.get("/{id}", dependencies=[Depends(JWTBearer())])
 async def getUser(id: str):
     useCase = GetOneUserUseCase()
     data = useCase.handle(id)

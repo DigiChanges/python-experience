@@ -2,6 +2,8 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
+from src.User.Domain.Entities.User import User
+
 class IToken(ABC):
 
     @abstractmethod
@@ -17,5 +19,5 @@ class IToken(ABC):
         pass
 
     @abstractmethod
-    def getUser(self) -> Any:
+    def getUser(self) -> User:
         pass

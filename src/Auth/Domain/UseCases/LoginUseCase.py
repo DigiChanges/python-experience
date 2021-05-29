@@ -1,40 +1,37 @@
-from src.Auth.Shared.JWTToken import JWTToken
-from src.Auth.AuthHandler import signJWT
-from src.Shared.Exceptions.DecryptForbiddenException import DecryptForbiddenException
+from src.Shared.Factories.EncryptionFactory import EncryptionFactory
+from src.Shared.InterfaceAdapters.IEncryption import IEncryption
+from src.User.Domain.Entities.User import User
+from src.Auth.Domain.Exceptions.BadCredentialsException import BadCredentialsException
 from src.Auth.InterfaceAdapters.Payloads.AuthPayload import AuthPayload
+from src.Auth.Shared.JWTToken import JWTToken
 from src.lazyInject import lazyInject
-from src.User.Infrastructure.UserDocument import UserDocument
-from src.User.InterfaceAdapters.IUserRepository import IUserRepository
-from src.User.InterfaceAdapters.Payloads.UserRepPayload import UserRepPayload
 from src.Shared.Config import config
+from src.User.Domain.Exceptions.UserDisabledException import UserDisabledException
+from src.User.InterfaceAdapters.IUserRepository import IUserRepository
+from datetime import datetime, timedelta
 
 
 class LoginUseCase:
 
     repository: IUserRepository = lazyInject.get(IUserRepository)
+    encryption: IEncryption = EncryptionFactory.create()
 
     def handle(self, payload: AuthPayload):
         email = payload.getEmail()
         password = payload.getPassword()
-        # self.repository.getOneByEmail(email)
 
-        foundUser = UserDocument()
-        foundUser.id = 12
-        foundUser.email = email
-        foundUser.firstName = "john"
-        foundUser.lastName = "Doe"
-        foundUser.enable = True
+        user: User = self.repository.getOneByEmail(email)
 
+        if not user.enable:
+            raise UserDisabledException()
 
-        if not foundUser.enable:
-            raise DecryptForbiddenException()
+        if not self.encryption.compare(password, user.password):
+            raise BadCredentialsException()
 
-        # compare encrypt pass
-        # create token
-        # token = signJWT(foundUser.email)
+        jwtExpires = config.get("jwt", {}).get("expires")
 
-        expires = config["jwt"]["expires"]
+        expire = datetime.utcnow() + timedelta(minutes=jwtExpires)
 
-        token = JWTToken( expires , foundUser)
+        token = JWTToken( expire , user)
 
         return token
