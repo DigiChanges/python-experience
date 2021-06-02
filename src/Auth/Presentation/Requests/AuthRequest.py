@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from src.Auth.InterfaceAdapters.Payloads.AuthPayload import AuthPayload
+from src.Auth.Presentation.Requests.Examples.AuthSchema import OpenApi
 
 
 class AuthRequest(AuthPayload, BaseModel):
@@ -11,3 +12,6 @@ class AuthRequest(AuthPayload, BaseModel):
 
     def getPassword(self) -> str:
         return self.password
+
+    class Config(OpenApi):
+        pass
