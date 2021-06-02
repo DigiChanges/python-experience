@@ -1,3 +1,4 @@
+from src.Config.Permissions import Permissions
 from src.Auth.AuthBearer import JWTBearer
 from fastapi import APIRouter, Depends
 
@@ -27,14 +28,14 @@ async def addUser(request: UserRepRequest):
 
     return Responder.send(data, 201, UserTransformer())
 
-@router.put("/{id}", dependencies=[Depends(JWTBearer())])
+@router.put("/{id}", dependencies=[Depends(JWTBearer(Permissions.USERS_UPDATE))])
 async def updateUser(request: UserUpdateRepRequest, id: str):
     useCase = UpdateUserUseCase()
     data = useCase.handle(request, id)
 
     return Responder.send(data, 201, UserTransformer())
 
-@router.get("/{id}", dependencies=[Depends(JWTBearer())])
+@router.get("/{id}", dependencies=[Depends(JWTBearer(Permissions.USERS_SHOW))])
 async def getUser(id: str):
     useCase = GetOneUserUseCase()
     data = useCase.handle(id)

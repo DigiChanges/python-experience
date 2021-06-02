@@ -1,3 +1,4 @@
+from src.User.Domain.Entities.User import User
 import time
 from typing import Any, Dict, List
 
@@ -17,8 +18,12 @@ class AuthService (IAuthService):
         except:
             return {}
 
-    def getPermissions(user: Any) -> List[str]:
-        raise Exception("getPermissions not implemented")
+    def getPermissions(self, user: User) -> List[str]:
+        permissions = user.permissions
+        # roles = user.roles TODO: get roles array entity from user entity
+        # iterate roles, get permissions, add to permissions list
+        return set(permissions)
 
-    def validatePermissions(permissions: List[str]) -> None:
+
+    def validatePermissions(self, permissions: List[str]) -> None:
         raise Exception("getPermissions not implemented")

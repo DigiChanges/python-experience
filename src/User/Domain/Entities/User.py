@@ -14,6 +14,7 @@ class User(Document):
     country = StringField()
     address = StringField()
     enable = BooleanField()
+    isSuperAdmin = BooleanField()
     permissions = ListField(StringField(max_length=30))
 
     def __str__(self):

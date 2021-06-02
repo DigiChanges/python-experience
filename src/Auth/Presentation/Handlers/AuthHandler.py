@@ -1,5 +1,7 @@
+from src.Config.Permissions import Permissions
 from fastapi import APIRouter, Depends
 
+from src.Auth.AuthBearer import JWTBearer
 from src.Auth.Domain.UseCases.LoginUseCase import LoginUseCase
 from src.Auth.Domain.UseCases.PermissionUseCase import PermissionUseCase
 from src.Auth.Presentation.Requests.AuthRequest import AuthRequest
@@ -25,7 +27,7 @@ async def login(request: AuthRequest):
 
     return Responder.send(data, 201, AuthTransformer())
 
-@router.get("/permissions")
+@router.get("/permissions", dependencies=[Depends(JWTBearer(Permissions.GET_PERMISSIONS))])
 async def permissions():
 
     permissionUseCase = PermissionUseCase()

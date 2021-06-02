@@ -1,4 +1,5 @@
 
+from src.App.Presentation.Exceptions.ForbiddenHttpException import ForbiddenHttpException
 from typing import Any
 from src.App.Presentation.Exceptions.BadCredentialsHttpException import BadCredentialsHttpException
 from src.App.Presentation.Exceptions.DecryptForbiddenHttpException import DecryptForbiddenHttpException
@@ -12,6 +13,7 @@ def handleError(app: Any):
     BadCredentialsHttpException(app)
     DecryptForbiddenHttpException(app)
     ErrorHttpException(app)
+    ForbiddenHttpException(app)
     InvalidTokenHttpException(app)
     NotFoundHttpException(app)
     UserDisabledHttpException(app)
