@@ -27,8 +27,12 @@ def getParams(req: Request) -> ICriteriaPayload:
             if "filter" in key:
                 rex = re.search(r"\[(.*?)\]", key)
                 value = rex.group(1)
+                filterValue = _query.get(key)
 
-                params["filter"][value] = _query.get(key)
+                if filterValue.__contains__('[') and filterValue.__contains__(']'):
+                    filterValue = re.search(r"\[(.*?)\]", filterValue).group(1).split(',')
+
+                params["filter"][value] = filterValue
 
             if "sort" in key:
                 rex = re.search(r"\[(.*?)\]", key)

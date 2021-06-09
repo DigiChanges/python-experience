@@ -1,5 +1,7 @@
+from functools import reduce
 from injector import inject
 from dataclasses import dataclass
+from mongoengine import Q
 
 from src.Shared.Criteria.MongoPaginator import MongoPaginator
 from src.Shared.InterfaceAdapters.ICriteria import ICriteria
@@ -22,8 +24,10 @@ class UserRepository(IUserRepository):
         filter = criteria.getFilter()
 
         if filter.has(UserFilter.EMAIL):
-            email = filter.get(UserFilter.EMAIL)
-            queryBuilder = queryBuilder.filter(email__icontains=f"{email}").filter
+            filters = filter.get(UserFilter.EMAIL)
+            query = reduce(lambda q1, q2: q1 | q2,
+               map(lambda email: Q(email__icontains=email), filters))
+            queryBuilder = queryBuilder(query)
 
         if filter.has(UserFilter.FIRST_NAME):
             firstName = filter.get(UserFilter.FIRST_NAME)
