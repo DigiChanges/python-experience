@@ -15,7 +15,7 @@ up:
 	@echo '************                               ************'
 	@echo '************           UP Python    	      ************'
 	@echo '************                               ************'
-	uvicorn index:app --reload
+	uvicorn src.main:app --reload
 
 exec:
 	@echo '************                               ************'
@@ -33,7 +33,7 @@ test:
 	@echo '************                               ************'
 	@echo '************           Test       	      ************'
 	@echo '************                               ************'
-	yarn test
+	python -m pytest
 
 clean:
 	docker-compose down -v --remove-orphans

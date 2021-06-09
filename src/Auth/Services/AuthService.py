@@ -1,6 +1,6 @@
 from src.User.Domain.Entities.User import User
 import time
-from typing import Any, Dict, List
+from typing import Dict, List
 
 from jose import jwt
 from src.Auth.InterfaceAdapters.IAuthService import IAuthService
@@ -18,7 +18,7 @@ class AuthService (IAuthService):
         except:
             return {}
 
-    def getPermissions(self, user: User) -> List[str]:
+    def getPermissions(self, user: User) -> set:
         permissions = user.permissions
         # roles = user.roles TODO: get roles array entity from user entity
         # iterate roles, get permissions, add to permissions list

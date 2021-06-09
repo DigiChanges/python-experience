@@ -1,9 +1,11 @@
 from injector import inject
 from dataclasses import dataclass
 
+from src.Shared.Criteria.MongoPaginator import MongoPaginator
 from src.Shared.InterfaceAdapters.ICriteria import ICriteria
 from src.User.Domain.Entities.User import User
 from src.User.InterfaceAdapters.IUserRepository import IUserRepository
+from src.User.Presentation.Criterias.UserFilter import UserFilter
 
 
 @inject
@@ -16,11 +18,21 @@ class UserRepository(IUserRepository):
         return User.objects.get(id=id)
 
     def list(self, criteria: ICriteria):
-        data = User.objects()
-        return data
+        queryBuilder = User.objects
+        filter = criteria.getFilter()
+
+        if filter.has(UserFilter.EMAIL):
+            email = filter.get(UserFilter.EMAIL)
+            queryBuilder = queryBuilder.filter(email__icontains=f"{email}").filter
+
+        if filter.has(UserFilter.FIRST_NAME):
+            firstName = filter.get(UserFilter.FIRST_NAME)
+            queryBuilder = queryBuilder(firstName=f"{firstName}").filter
+
+        return MongoPaginator(queryBuilder, criteria)
 
     def delete(self, id: str):
-        return User.objects.get(id=id)
+        return User.objects.delete(id=id)
 
     def getOneByEmail(self, email: str):
         return User.objects.get(email=email)

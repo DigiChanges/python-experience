@@ -9,6 +9,13 @@ from src.App.Presentation.Exceptions.NotFoundHttpException import NotFoundHttpEx
 from src.App.Presentation.Exceptions.UserDisableHttpException import UserDisabledHttpException
 from typing import Any
 
+from src.App.Presentation.Exceptions.DecryptForbiddenHttpException import \
+    DecryptForbiddenHttpException
+from src.App.Presentation.Exceptions.ErrorHttpException import \
+    ErrorHttpException
+from src.App.Presentation.Exceptions.NotFoundHttpException import \
+    NotFoundHttpException
+
 
 def handleError(app: Any):
     BadCredentialsHttpException(app)

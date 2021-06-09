@@ -19,6 +19,9 @@ class UserRepRequest(UserRepPayload, BaseModel):
     enable: bool
     permissions: List[str] = []
 
+    def __call__(self):
+        self.passwordValidation()
+
     def passwordValidation(self):
         return self.password != self.passwordConfirmation
 

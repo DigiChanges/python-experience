@@ -1,5 +1,4 @@
 from typing import Any
-
 from src.Shared.Database.MongoConnectionStrategy import MongoCreateConnectionStrategy
 from src.Shared.InterfaceAdapters.ICreateConnection import ICreateConnection
 

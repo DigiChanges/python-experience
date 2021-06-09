@@ -13,10 +13,6 @@ class IFilter(ABC):
         pass
 
     @abstractmethod
-    def getArray(self) -> List:
-        pass
-
-    @abstractmethod
     def has(self, key: str) -> bool:
         pass
 
@@ -26,4 +22,8 @@ class IFilter(ABC):
 
     @abstractmethod
     def getFields(self) -> List:
+        pass
+
+    @abstractmethod
+    def getDefaultFilters(self) -> Any:
         pass

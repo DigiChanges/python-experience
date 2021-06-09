@@ -1,4 +1,4 @@
 from injector import Injector
-from container import Container
+from src.container import Container
 
 lazyInject = Injector(modules=[Container()])

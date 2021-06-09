@@ -1,55 +1,20 @@
-from typing import Any, List
-
 from src.Shared.InterfaceAdapters.ISort import ISort
 
 
 class Sort(ISort):
-    # private readonly sorts: Map<string, string>;
+    _sorts: dict
+    _res: dict
 
-    # constructor(request: express.Request)
-    #     // TODO: Remove logic from constructor
-    #     this.sorts = new Map<string, string>();
-    #     let sorts: any = request.query.hasOwnProperty('sort') ? request.query.sort : [];
-    #     let keys = this.getFields();
-    #
-    #     let newSorts = Object.keys(sorts).map((key: string) =>
-    #     {
-    #         const sort: any = request.query.sort;
-    #
-    #         return {
-    #             [key]: sort[key]
-    #         };
-    #     }).filter((value => {
-    #         const key = Object.keys(value)[0];
-    #         return keys.includes(key) ? value : false;
-    #     }));
-    #
-    #     newSorts.forEach((newSort: any) => {
-    #         const defaultKey: string = Object.keys(newSort)[0];
-    #         const defaultValue: string = newSort[defaultKey];
-    #
-    #         this.sorts.set(defaultKey, defaultValue);
-    #     });
-    #
-    #     let defaultSorts = this.getDefaultSorts();
-    #
-    #     if (this.sorts.size === 0)
-    #     {
-    #         defaultSorts.forEach((defaultSort: any) =>
-    #         {
-    #             const defaultKey: string = Object.keys(defaultSort)[0];
-    #             const defaultValue: string = defaultSort[defaultKey];
-    #
-    #             this.sorts.set(defaultKey, defaultValue);
-    #         });
-    #     }
-    # }
+    def __init__(self, sorts: dict):
+        self._sorts = self.getDefaultSorts()
+        self._res = {}
 
-    def get(self) -> List: # Map<string, string>
-        pass # return this.sorts;
+        self._sorts.update(sorts)
+        fields = self.getFields()
 
-    def getFields(self) -> Any:
-        pass
+        for field in fields:
+            if field in sorts:
+                self._res[field] = sorts[field]
 
-    def getDefaultSorts(self) -> Any:
-        pass
+    def get(self) -> dict:
+        return self._res

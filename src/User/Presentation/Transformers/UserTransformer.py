@@ -10,7 +10,7 @@ class UserTransformer(Transformer):
 
     def transform(self, user: User):
         return {
-            "id": str(user.id),
+            "id": str(user.pk),
             "firstName": user.firstName,
             "lastName": user.lastName,
             "email": user.email,

@@ -4,14 +4,14 @@ from typing import Any, List
 class IAuthService(ABC):
 
     @abstractmethod
-    def decodeToken(token: str) -> Any:
+    def decodeToken(self, token: str) -> Any:
         pass
 
     @abstractmethod
-    def getPermissions(user: Any) -> List[str]:
+    def getPermissions(self, user: Any) -> List[str]:
         pass
     # def getPermissions(user: IUserDomain) -> List[str]:
 
     @abstractmethod
-    def validatePermissions(permissions: List[str]) -> None:
+    def validatePermissions(self, permissions: List[str]) -> None:
         pass

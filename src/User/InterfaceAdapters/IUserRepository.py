@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from src.User.Domain.Entities.User import User
 from src.Shared.InterfaceAdapters.ICriteria import ICriteria
+from src.Shared.InterfaceAdapters.IPaginator import IPaginator
 
 
 class IUserRepository(ABC):
@@ -14,7 +14,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def list(self, criteria: ICriteria):
+    def list(self, criteria: ICriteria) -> IPaginator:
         pass
 
     @abstractmethod
