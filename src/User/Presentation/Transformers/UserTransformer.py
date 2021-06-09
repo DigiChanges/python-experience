@@ -22,6 +22,7 @@ class UserTransformer(Transformer):
             "country": user.country,
             "address": user.address,
             "enable": user.enable,
+            "roles": user.getRoles(),
             "permissions": user.permissions
         }
 

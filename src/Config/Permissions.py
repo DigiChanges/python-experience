@@ -17,6 +17,13 @@ class Permissions:
     USERS_SHOW: str = 'usersShow'
     USERS_UPDATE: str = 'usersUpdate'
 
+    # ROLES
+    ROLES_DELETE: str = 'rolesDelete'
+    ROLES_LIST: str = 'rolesList'
+    ROLES_SAVE: str = 'rolesSave'
+    ROLES_SHOW: str = 'rolesShow'
+    ROLES_UPDATE: str = 'rolesUpdate'
+
     def permissions() -> List[str]:
         return [
 
@@ -29,5 +36,11 @@ class Permissions:
             f"{Permissions.USERS_SAVE}",
             f"{Permissions.USERS_SHOW}",
             f"{Permissions.USERS_UPDATE}",
+
+            f"{Permissions.ROLES_DELETE}",
+            f"{Permissions.ROLES_LIST}",
+            f"{Permissions.ROLES_SAVE}",
+            f"{Permissions.ROLES_SHOW}",
+            f"{Permissions.ROLES_UPDATE}",
 
         ]

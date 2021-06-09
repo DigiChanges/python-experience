@@ -3,8 +3,9 @@ from fastapi import FastAPI
 
 from src.Shared.Factories.DatabaseFactory import DatabaseFactory
 from src.Shared.Exceptions.index import handleError
-from src.User.Presentation.Handlers import UserHandler
 from src.Auth.Presentation.Handlers import AuthHandler
+from src.Role.Presentation.Handlers import RoleHandler
+from src.User.Presentation.Handlers import UserHandler
 
 config = dotenv_values(".env")
 
@@ -19,5 +20,6 @@ app = FastAPI()
 handleError(app)
 
 
-app.include_router(UserHandler.router)
 app.include_router(AuthHandler.router)
+app.include_router(RoleHandler.router)
+app.include_router(UserHandler.router)

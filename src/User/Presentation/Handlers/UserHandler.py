@@ -1,17 +1,18 @@
-from src.Config.Permissions import Permissions
-from src.Auth.AuthBearer import JWTBearer
 from fastapi import APIRouter, Depends
-
+from src.App.Presentation.ObjectIdStr import ObjectIdStr
+from src.Auth.AuthBearer import JWTBearer
+from src.Config.Permissions import Permissions
+from src.lazyInject import lazyInject
 from src.Shared.Helpers.Responder import Responder
+from src.User.Domain.UseCases.AssignRoleUseCase import AssignRoleUseCase
 from src.User.Domain.UseCases.GetOneUserUseCase import GetOneUserUseCase
 from src.User.Domain.UseCases.ListUserUseCase import ListUserUseCase
 from src.User.Domain.UseCases.SaveUserUseCase import SaveUserUseCase
 from src.User.Domain.UseCases.UpdateUserUseCase import UpdateUserUseCase
+from src.User.Presentation.Requests.UserAssignRoleRequest import UserAssignRoleRequest
 from src.User.Presentation.Requests.UserRepRequest import UserRepRequest
 from src.User.Presentation.Requests.UserUpdateRepRequest import UserUpdateRepRequest
 from src.User.Presentation.Transformers.UserTransformer import UserTransformer
-from src.lazyInject import lazyInject
-
 router = APIRouter(
     prefix="/api/users",
     responses={404: {"data": "Not found"}}
@@ -52,3 +53,11 @@ async def getUsers(pagination):
     data = useCase.handle()
 
     return Responder.send(data, 200, UserTransformer())
+
+@router.put("/assignRole/{id}", dependencies=[Depends(JWTBearer(Permissions.USERS_ASSIGN_ROLE))])
+async def assignRole(request: UserAssignRoleRequest, id: ObjectIdStr):
+
+    useCase = AssignRoleUseCase()
+    data = useCase.handle(request, id)
+
+    return Responder.send(data, 201, UserTransformer())
