@@ -1,5 +1,5 @@
 from bson import ObjectId
-from mongoengine.base.fields import ObjectIdField
+from fastapi import HTTPException
 
 
 class ObjectIdStr(str):
@@ -9,9 +9,8 @@ class ObjectIdStr(str):
 
     @classmethod
     def validate(cls, v):
-        resultIsValid = ObjectIdField.is_valid(str(v))
-        print('>>> resultIsValid')
-        print(resultIsValid)
-        if not ObjectIdField.is_valid(str(v)):
-            return ValueError(f"Not a valid ObjectId: {v}")
+
+        if not ObjectId.is_valid(str(v)):
+            raise HTTPException(422, f"Not a valid ObjectId: {v}")
+
         return ObjectId(str(v))
